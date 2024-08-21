@@ -20,7 +20,7 @@ class CommonTextFormField extends StatelessWidget {
   final String? Function(String? value)? validator;
 
   const CommonTextFormField({
-    Key? key,
+    super.key,
     required this.controller,
     required this.hintText,
     required this.prefixIcon,
@@ -35,7 +35,7 @@ class CommonTextFormField extends StatelessWidget {
     this.maxLines = 1,
     this.validatorText = "",
     this.focusNode,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -146,7 +146,7 @@ class CommonTextFormFieldWithSuffix extends StatelessWidget {
   final int maxLines;
 
   const CommonTextFormFieldWithSuffix({
-    Key? key,
+    super.key,
     required this.controller,
     required this.hintText,
     required this.prefixIcon,
@@ -160,7 +160,7 @@ class CommonTextFormFieldWithSuffix extends StatelessWidget {
     this.radius = 5,
     this.maxLines = 1,
     this.validatorText = "",
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

@@ -12,6 +12,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../theme/app_theme.dart';
+
 class MyApp extends StatefulWidget {
   static void setLocale(BuildContext context, Locale newLocale) {
     _MyAppState? state = context.findAncestorStateOfType<_MyAppState>();
@@ -53,7 +55,7 @@ class _MyAppState extends State<MyApp> {
           child: MaterialApp(
             title: 'Flutter Demo',
             debugShowCheckedModeBanner: false,
-            theme: ThemeData(colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple), useMaterial3: true, splashColor: Colors.transparent),
+            theme: AppTheme.lightTheme(context),
             supportedLocales: const [
               Locale('en', ''),
               Locale('hi', ''),
