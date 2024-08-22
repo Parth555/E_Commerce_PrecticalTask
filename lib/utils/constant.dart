@@ -75,6 +75,10 @@ import 'package:form_field_validator/form_field_validator.dart';
         errorText: 'passwords must have at least one special character')
   ]);
 
+  final userValidator = MultiValidator([
+    RequiredValidator(errorText: 'Username is required'),
+  ]);
+
   final emaildValidator = MultiValidator([
     RequiredValidator(errorText: 'Email is required'),
     EmailValidator(errorText: "Enter a valid email address"),

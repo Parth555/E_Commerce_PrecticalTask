@@ -1,32 +1,18 @@
-
+import 'package:e_commerce/ui/signup/view/signup_screen.dart';
 
 import '../../../generated/assets.dart';
 import '../../../localization/language/languages.dart';
-import '../../../ui/home/bloc/home_bloc.dart';
-import '../../../ui/home/view/home_screen.dart';
 import '../../../ui/login/bloc/login_bloc.dart';
 import '../../../utils/constant.dart';
-import '../../../utils/sizer_utils.dart';
 import '../../../utils/utils.dart';
 import '../../../validator/email/email_validator.dart';
-import '../../../widgets/components/login_form.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import '../../../widgets/text_field/text_form_field.dart';
+import '../../home/view/home_screen.dart';
+import 'components/login_form.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
-
-  static Route<void> route(String? data) {
-    return MaterialPageRoute<void>(
-        builder: (_) => BlocProvider(
-              create: (_) => HomeBloc(),
-              child: const HomeScreen(
-                title: 'hello',
-              ),
-            ));
-  }
 
   @override
   LoginScreenState createState() => LoginScreenState();
@@ -41,10 +27,8 @@ class LoginScreenState extends State<LoginScreen> {
   void initState() {
     super.initState();
 
-    emailTextEditingController.text = 'kminchelle';
-    context.read<LoginBloc>().add(EmailTextChanged(emailTextEditingController.text));
-    passwordTextEditingController.text = '0lelplR';
-    context.read<LoginBloc>().add(PasswordTextChanged(passwordTextEditingController.text));
+    emailTextEditingController.text = 'mor_2314';
+    passwordTextEditingController.text = '83r5^_';
   }
 
   @override
@@ -61,7 +45,7 @@ class LoginScreenState extends State<LoginScreen> {
 
           if (state.status.isSuccess) {
             Utils.showSnackBar(context, "Login Successfully", isSuccess: true);
-            Navigator.pushAndRemoveUntil(context, LoginScreen.route(""), (Route<dynamic> route) => false);
+            Navigator.pushAndRemoveUntil(context, HomeScreen.route(""), (Route<dynamic> route) => false);
           }
         },
         builder: (context, state) {
@@ -87,41 +71,11 @@ class LoginScreenState extends State<LoginScreen> {
                       ),
                       const SizedBox(height: defaultPadding),
 
-                      // Container(
-                      //   margin: EdgeInsets.symmetric(horizontal: AppSizes.setWidth(25)),
-                      //   child: CommonTextFormField(
-                      //     controller: emailTextEditingController,
-                      //     enabled: !state.status.isLoading,
-                      //     hintText: Languages.of(context).txtHintEnterYourEmail,
-                      //     prefixIcon: state.emailPrefixIcon,
-                      //     onTextChanged: (value) => context.read<LoginBloc>().add(EmailTextChanged(value)),
-                      //     fillColor: state.emailBgColor,
-                      //     keyboardType: TextInputType.emailAddress,
-                      //     //validator: emailValidator,
-                      //     validatorText: Languages.of(context).txtEmailRequired,
-                      //   ),
-                      // ),
-                      // const SizedBox(
-                      //   height: 20,
-                      // ),
-                      // Container(
-                      //   margin: EdgeInsets.symmetric(horizontal: AppSizes.setWidth(25)),
-                      //   child: CommonTextFormField(
-                      //     controller: passwordTextEditingController,
-                      //     enabled: !state.status.isLoading,
-                      //     hintText: Languages.of(context).txtHintEnterYourPassword,
-                      //     prefixIcon: state.passPrefixIcon,
-                      //     onTextChanged: (value) => context.read<LoginBloc>().add(PasswordTextChanged(value)),
-                      //     fillColor: state.passBgColor,
-                      //     keyboardType: TextInputType.visiblePassword,
-                      //     validatorText: Languages.of(context).txtPasswordRequired,
-                      //   ),
-                      // ),
                       LogInForm(
                         formKey: formKey,
                         enabled: !state.status.isLoading,
-                        onEmailTextChanged:(value) => context.read<LoginBloc>().add(EmailTextChanged(value)),
-                        onPassTextChanged: (value) => context.read<LoginBloc>().add(PasswordTextChanged(value)),
+                        emailTextEditingController:emailTextEditingController,
+                        passwordTextEditingController: passwordTextEditingController
 
                       ),
                       Align(
@@ -137,7 +91,9 @@ class LoginScreenState extends State<LoginScreen> {
                         height: size.height > 700
                             ? size.height * 0.1
                             : defaultPadding,
+                        child:state.status.isLoading?const Center(child: CircularProgressIndicator()):null,
                       ),
+
                       ElevatedButton(
                         onPressed: () {
                             if (formKey.currentState!.validate()) {
@@ -154,7 +110,7 @@ class LoginScreenState extends State<LoginScreen> {
                           const Text("Don't have an account?"),
                           TextButton(
                             onPressed: () {
-                              // Navigator.pushNamed(context, signUpScreenRoute);
+                              Navigator.push(context, SignUpScreen.route());
                             },
                             child: const Text("Sign up"),
                           )

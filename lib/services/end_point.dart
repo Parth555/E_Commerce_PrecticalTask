@@ -1,8 +1,8 @@
 import '../utils/debug.dart';
 
 abstract class EndPoint {
-  static const liveURL = "https://dummyjson.com/";
-  static const localURL = "https://dummyjson.com/";
+  static const liveURL = "https://fakestoreapi.com/";
+  static const localURL = "https://fakestoreapi.com/";
 
   static const imageFilter = 'image/filter/';
 
@@ -14,6 +14,7 @@ abstract class EndPoint {
     }
   }
 
-  static const login = "/auth/login";
+  static const login = "auth/login";
+  static const signUp = "users";
   static const getPost = "/posts";
 }

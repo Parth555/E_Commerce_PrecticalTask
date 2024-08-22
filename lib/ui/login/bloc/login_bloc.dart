@@ -18,66 +18,14 @@ part 'login_state.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
   LoginBloc() : super(const LoginState()) {
-    on<EmailTextChanged>(_onEmailTextChanged);
-    on<PasswordTextChanged>(_onPasswordTextChanged);
     on<LoginButtonPressed>(_onLoginButtonPressed);
   }
 
-  FutureOr<void> _onEmailTextChanged(EmailTextChanged event, Emitter<LoginState> emit) {
-    // Login Controller
-    if (event.value.isNotEmpty) {
-      emit(
-        state.copyWith(
-          emailPrefixIcon: AppAssets.icFillMessage,
-          emailBgColor: AppColor.secondaryBackground,
-          emailTextColor: AppColor.primary,
-        ),
-      );
-    } else {
-      emit(
-        state.copyWith(
-          emailPrefixIcon: AppAssets.icUnFillMessage,
-          emailBgColor: AppColor.bgGrey,
-          emailTextColor: AppColor.txtGrey,
-        ),
-      );
-    }
-  }
-
-  FutureOr<void> _onPasswordTextChanged(PasswordTextChanged event, Emitter<LoginState> emit) {
-    if (event.value.isNotEmpty) {
-      emit(
-        state.copyWith(
-          passPrefixIcon: AppAssets.icFillMessage,
-          passBgColor: AppColor.secondaryBackground,
-          passTextColor: AppColor.primary,
-        ),
-      );
-    } else {
-      emit(
-        state.copyWith(
-          passPrefixIcon: AppAssets.icUnFillMessage,
-          passBgColor: AppColor.bgGrey,
-          passTextColor: AppColor.txtGrey,
-        ),
-      );
-    }
-  }
 
   Future<FutureOr<void>> _onLoginButtonPressed(LoginButtonPressed event, Emitter<LoginState> emit) async {
     // show loading
     emit(state.copyWith(status: LoginStatus.loading));
-    // 1. Validation
-    /* final validationError = _validateEmail(event.email, password: event.password);
-    // 2. Error send
-    if (validationError != null) {
-      emit(
-        state.copyWith(
-          status: LoginStatus.failure,
-          errorMessage: validationError,
-        ),
-      );
-    }*/
+
 
     // Api call
     await Future.delayed(const Duration(seconds: 2));
@@ -86,22 +34,17 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
   loginAPICall(String email, {required String password, required Emitter<LoginState> emit}) async {
     try {
-      // Debug.printLog(loginDataModel.toJson().toString());
 
-      FormData formData = FormData.fromMap({
-        Params.username: email,
-        Params.password: password,
-      });
+      var map = {
+        Params.username: 'mor_2314',
+        Params.password: "83r5^_",
+      };
 
-      var map = {};
 
-      for (var element in formData.fields) {
-        map.putIfAbsent(element.key, () => element.value);
-      }
 
       Debug.printLoge("loginAPICall PARAMS :::", map.toString());
 
-      Response response = await DioClient.shared.post(EndPoint.login, data: formData);
+      Response response = await DioClient.shared.post(EndPoint.login, data: map);
 
       Debug.printLoge("loginAPICall :::", response.toString());
 

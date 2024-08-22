@@ -7,6 +7,7 @@ class Params {
   static const responseCode = 'ResponseCode';
   static const statusCode = 'statusCode';
 
+  static const email = "email";
   static const username = "username";
   static const password = "password";
 }

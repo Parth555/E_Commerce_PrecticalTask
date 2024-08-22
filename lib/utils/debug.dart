@@ -10,6 +10,6 @@ class Debug {
   }
 
   static printLoge(String str, String msg) {
-    if (debug) log(str);
+    if (debug) log(str,error: msg);
   }
 }

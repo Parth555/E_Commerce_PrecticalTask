@@ -80,12 +80,11 @@ class _MyAppState extends State<MyApp> {
                 ? BlocProvider(
                     create: (context) => HomeBloc(),
                     child: const HomeScreen(
-                      title: 'Hello',
                     ),
                   )
                 : BlocProvider(
                     create: (context) => LoginBloc(),
-                    child: LoginScreen(),
+                    child: const LoginScreen(),
                   ),
           ),
         );
