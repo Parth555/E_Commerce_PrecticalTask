@@ -1,6 +1,15 @@
 part of 'home_bloc.dart';
 
-enum HomeStatus { initial, categoryLoading, productLoading, categorySuccess, productSuccess, failure, successWithEmpty }
+enum HomeStatus {
+  initial,
+  categoryLoading,
+  productLoading,
+  categorySuccess,
+  productSuccess,
+  categoryFailure,
+  productFailure,
+  successWithEmpty
+}
 
 extension HomeStatusX on HomeStatus {
   bool get isInitial => this == HomeStatus.initial;
@@ -13,21 +22,35 @@ extension HomeStatusX on HomeStatus {
 
   bool get isProductSuccess => this == HomeStatus.productSuccess;
 
-  bool get isFailure => this == HomeStatus.failure;
+  bool get categoryFailure => this == HomeStatus.categoryFailure;
+  bool get productFailure => this == HomeStatus.productFailure;
 }
 
 class HomeState extends Equatable {
-  const HomeState({this.value = 0, this.height = 80, this.isFullImage = false});
+  const HomeState(
+      {this.homeStatus = HomeStatus.initial,
+      this.errorMessage = '',
+      this.category,
+      this.products});
 
-  final List<String> category;
-  final int value;
-  final double height;
-  final bool isFullImage;
+  final List<String>? category;
+  final List<Products>? products;
+  final HomeStatus homeStatus;
+  final String errorMessage;
 
-  HomeState copyWith({int? count, double? height}) {
-    return HomeState(value: count ?? value, height: height ?? this.height, isFullImage: !((height ?? this.height) == 80));
+  HomeState copyWith({
+    HomeStatus? homeStatus,
+    String? errorMessage,
+      List<String>? category,
+      List<Products>? products}) {
+    return HomeState(
+      homeStatus: homeStatus ?? this.homeStatus,
+      errorMessage: errorMessage ?? this.errorMessage,
+      category: category ?? this.category,
+      products: products ?? this.products,
+    );
   }
 
   @override
-  List<Object?> get props => [value, height, isFullImage];
+  List<Object?> get props => [homeStatus, errorMessage, category, products];
 }

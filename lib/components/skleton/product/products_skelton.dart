@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../../../utils/constant.dart';
 import 'product_card_skelton.dart';
@@ -20,7 +21,10 @@ class ProductsSkelton extends StatelessWidget {
             left: defaultPadding,
             right: index == 4 ? defaultPadding : 0,
           ),
-          child: const ProductCardSkelton(),
+          child: Shimmer.fromColors(
+              baseColor: Colors.grey.shade900,
+              highlightColor: Colors.grey.shade300,
+              enabled: true,child: const ProductCardSkelton()),
         ),
       ),
     );

@@ -104,6 +104,13 @@ class Utils {
     return FocusScope.of(context).unfocus();
   }
 
+
+  static String capitalizeFirstLetter(String str) {
+    if (str.isEmpty) {
+      return str;
+    }
+    return str[0].toUpperCase() + str.substring(1);
+  }
   static String normalizeContactNumber(String number, {bool includePlus = false}) {
     if (includePlus) {
       return number.replaceAll(RegExp('[^+^0-9]'), '');

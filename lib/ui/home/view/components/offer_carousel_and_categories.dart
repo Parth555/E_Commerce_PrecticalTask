@@ -1,13 +1,20 @@
 import 'package:flutter/material.dart';
 
+import '../../../../components/skleton/others/categories_skelton.dart';
 import '../../../../utils/constant.dart';
+import '../../bloc/home_bloc.dart';
 import 'categories.dart';
 import 'offers_carousel.dart';
 
 class OffersCarouselAndCategories extends StatelessWidget {
   const OffersCarouselAndCategories({
     super.key,
+    required this.categoryStatus,
+    this.category,
   });
+
+  final HomeStatus categoryStatus;
+  final List<String>? category;
 
   @override
   Widget build(BuildContext context) {
@@ -26,8 +33,12 @@ class OffersCarouselAndCategories extends StatelessWidget {
           ),
         ),
         // While loading use 👇
-        // const CategoriesSkelton(),
-        const Categories(),
+
+        categoryStatus.isInitial ||
+        categoryStatus.isCategoryLoading ||
+        categoryStatus.categoryFailure ||category==null?
+              const CategoriesSkelton()
+            :  Categories(category:category!)
       ],
     );
   }

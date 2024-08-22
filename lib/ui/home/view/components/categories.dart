@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../../utils/constant.dart';
+import '../../../../utils/utils.dart';
 
 // For preview
 class CategoryModel {
@@ -16,21 +17,26 @@ class CategoryModel {
 }
 
 List<CategoryModel> demoCategories = [
-  CategoryModel(name: "All Categories"),
+  // CategoryModel(name: "All Categories"),
   // CategoryModel(
   //     name: "On Sale",
   //     svgSrc: "assets/icons/Sale.svg",
   //     route: onSaleScreenRoute),
   CategoryModel(name: "Man's", svgSrc: "assets/icons/Man.svg"),
   CategoryModel(name: "Woman’s", svgSrc: "assets/icons/Woman.svg"),
+  CategoryModel(name: "Man's", svgSrc: "assets/icons/Man.svg"),
+  CategoryModel(name: "Woman’s", svgSrc: "assets/icons/Woman.svg"),
+  CategoryModel(name: "Man's", svgSrc: "assets/icons/Man.svg"),
   // CategoryModel(
   //     name: "Kids", svgSrc: "assets/icons/Child.svg", route: kidsScreenRoute),
 ];
 // End For Preview
 
 class Categories extends StatelessWidget {
+  final List<String> category;
+
   const Categories({
-    super.key,
+    super.key, required this.category,
   });
 
   @override
@@ -40,16 +46,15 @@ class Categories extends StatelessWidget {
       child: Row(
         children: [
           ...List.generate(
-            demoCategories.length,
+            category.length,
             (index) => Padding(
               padding: EdgeInsets.only(
                   left: index == 0 ? defaultPadding : defaultPadding / 2,
                   right:
-                      index == demoCategories.length - 1 ? defaultPadding : 0),
+                      index == category.length - 1 ? defaultPadding : 0),
               child: CategoryBtn(
-                category: demoCategories[index].name,
-                svgSrc: demoCategories[index].svgSrc,
-                isActive: index == 0,
+                category: Utils.capitalizeFirstLetter(category[index])!,
+                isActive: true,
                 press: () {
                   if (demoCategories[index].route != null) {
                     Navigator.pushNamed(context, demoCategories[index].route!);

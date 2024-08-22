@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-
 import '../../../components/Banner/S/banner_s_style_1.dart';
 import '../../../components/Banner/S/banner_s_style_5.dart';
 import '../../../utils/constant.dart';
+import '../../../utils/utils.dart';
 import '../bloc/home_bloc.dart';
 import 'components/best_sellers.dart';
 import 'components/flash_sale.dart';
@@ -17,8 +17,7 @@ class HomeScreen extends StatefulWidget {
 
   static Route<void> route(String? data) {
     return MaterialPageRoute<void>(
-        builder: (_) =>
-            BlocProvider(
+        builder: (_) => BlocProvider(
               create: (_) => HomeBloc(),
               child: const HomeScreen(),
             ));
@@ -30,17 +29,28 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   @override
+  void initState() {
+    super.initState();
+    context.read<HomeBloc>().add(GetAllCategory());
+    context.read<HomeBloc>().add(GetAllProduct());
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: BlocConsumer<HomeBloc, HomeState>(
         listener: (context, state) {
+          if (state.homeStatus.productFailure && state.errorMessage.isNotEmpty) {
+            // Show error message
+            Utils.showSnackBar(context, state.errorMessage);
+          }
         },
         builder: (context, state) {
           return SafeArea(
             child: CustomScrollView(
               slivers: [
-                const SliverToBoxAdapter(child: OffersCarouselAndCategories()),
-                const SliverToBoxAdapter(child: PopularProducts()),
+                 SliverToBoxAdapter(child: OffersCarouselAndCategories(categoryStatus: state.homeStatus,category:state.category)),
+                 SliverToBoxAdapter(child: PopularProducts(productStatus: state.homeStatus,products: state.products)),
                 const SliverPadding(
                   padding: EdgeInsets.symmetric(vertical: defaultPadding * 1.5),
                   sliver: SliverToBoxAdapter(child: FlashSale()),
