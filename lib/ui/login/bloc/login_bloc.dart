@@ -1,11 +1,8 @@
 import 'dart:async';
-import 'dart:ui';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:bloc/bloc.dart';
 import '../../../services/dio_client.dart';
 import '../../../services/end_point.dart';
-import '../../../utils/app_assets.dart';
-import '../../../utils/app_color.dart';
 import '../../../utils/app_exception.dart';
 import '../../../utils/debug.dart';
 import '../../../utils/params.dart';

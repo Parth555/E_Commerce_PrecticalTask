@@ -1,5 +1,7 @@
 import 'package:e_commerce/models/products_model.dart';
 import 'package:e_commerce/ui/home/bloc/home_bloc.dart';
+import 'package:e_commerce/ui/product_detail/bloc/product_details_bloc.dart';
+import 'package:e_commerce/ui/product_detail/view/product_details_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../components/product/product_card.dart';
@@ -51,8 +53,7 @@ class PopularProducts extends StatelessWidget {
                 priceAfetDiscount: double.parse((products![index].price!-((products![index].price!*10)/100)).toStringAsFixed(2)),
                 dicountpercent: 10,
                 press: () {
-                  // Navigator.pushNamed(context, productDetailsScreenRoute,
-                  //     arguments: index.isEven);
+                  Navigator.push(context,ProductDetailsScreen.route(productId: products![index].id!));
                 },
               ),
             ),

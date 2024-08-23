@@ -1,14 +1,22 @@
+import 'package:e_commerce/models/products_model.dart';
+import 'package:e_commerce/ui/home/bloc/home_bloc.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../components/product/secondary_product_card.dart';
+import '../../../../components/skleton/product/secondery_produts_skelton.dart';
 import '../../../../models/product_model.dart';
 import '../../../../utils/constant.dart';
-
+import '../../../product_detail/view/product_details_screen.dart';
 
 class MostPopular extends StatelessWidget {
   const MostPopular({
     super.key,
+    required this.productStatus,
+    this.products,
   });
+
+  final HomeStatus productStatus;
+  final List<Products>? products;
 
   @override
   Widget build(BuildContext context) {
@@ -24,28 +32,27 @@ class MostPopular extends StatelessWidget {
           ),
         ),
         // While loading use 👇
-        // SeconderyProductsSkelton(),
+        productStatus.isProductLoading||productStatus.isInitial||productStatus.productFailure||products==null?const SeconderyProductsSkelton():
         SizedBox(
           height: 114,
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
             // Find demoPopularProducts on models/ProductModel.dart
-            itemCount: demoPopularProducts.length,
+            itemCount: products!.length,
             itemBuilder: (context, index) => Padding(
               padding: EdgeInsets.only(
                 left: defaultPadding,
-                right: index == demoPopularProducts.length - 1
-                    ? defaultPadding
-                    : 0,
+                right: index == demoPopularProducts.length - 1 ? defaultPadding : 0,
               ),
               child: SecondaryProductCard(
-                image: demoPopularProducts[index].image,
-                brandName: demoPopularProducts[index].brandName,
-                title: demoPopularProducts[index].title,
-                price: demoPopularProducts[index].price,
-                priceAfetDiscount: demoPopularProducts[index].priceAfetDiscount,
-                dicountpercent: demoPopularProducts[index].dicountpercent,
+                image: products![index].image!,
+                brandName: products![index].category!,
+                title: products![index].title!,
+                price: products![index].price!,
+                priceAfetDiscount: double.parse((products![index].price!-((products![index].price!*10)/100)).toStringAsFixed(2)),
+                dicountpercent: 10,
                 press: () {
+                  Navigator.push(context,ProductDetailsScreen.route(productId: products![index].id!));
                   // Navigator.pushNamed(context, productDetailsScreenRoute,
                   //     arguments: index.isEven);
                 },

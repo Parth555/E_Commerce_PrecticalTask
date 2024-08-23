@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../../utils/constant.dart';
 import '../../../../utils/utils.dart';
+import '../../../category_products/view/category_product_screen.dart';
 
 // For preview
 class CategoryModel {
@@ -53,12 +54,10 @@ class Categories extends StatelessWidget {
                   right:
                       index == category.length - 1 ? defaultPadding : 0),
               child: CategoryBtn(
-                category: Utils.capitalizeFirstLetter(category[index])!,
+                category: Utils.capitalizeFirstLetter(category[index]),
                 isActive: true,
                 press: () {
-                  if (demoCategories[index].route != null) {
-                    Navigator.pushNamed(context, demoCategories[index].route!);
-                  }
+                    Navigator.push(context, ProductCategoryScreen.route(category: category[index]));
                 },
               ),
             ),

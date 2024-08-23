@@ -1,8 +1,12 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/svg.dart';
 
 import '../../../components/Banner/S/banner_s_style_1.dart';
 import '../../../components/Banner/S/banner_s_style_5.dart';
+import '../../../generated/assets.dart';
 import '../../../utils/constant.dart';
 import '../../../utils/utils.dart';
 import '../bloc/home_bloc.dart';
@@ -28,6 +32,9 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  Random random = Random();
+
+
   @override
   void initState() {
     super.initState();
@@ -38,6 +45,36 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        // pinned: true,
+        // floating: true,
+        // snap: true,
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        leading: const SizedBox(),
+        leadingWidth: 0,
+        centerTitle: false,
+        title: SvgPicture.asset(
+          Assets.logoShoplon,
+          colorFilter: ColorFilter.mode(
+              Theme.of(context).iconTheme.color!, BlendMode.srcIn),
+          height: 20,
+          width: 100,
+        ),
+        actions: [
+          IconButton(
+            onPressed: () {
+              // Navigator.pushNamed(context, searchScreenRoute);
+            },
+            icon: SvgPicture.asset(
+              Assets.iconsChild,
+              height: 24,
+              colorFilter: ColorFilter.mode(
+                  Theme.of(context).textTheme.bodyLarge!.color!,
+                  BlendMode.srcIn),
+            ),
+          ),
+        ],
+      ),
       body: BlocConsumer<HomeBloc, HomeState>(
         listener: (context, state) {
           if (state.homeStatus.productFailure && state.errorMessage.isNotEmpty) {
@@ -51,9 +88,9 @@ class _HomeScreenState extends State<HomeScreen> {
               slivers: [
                  SliverToBoxAdapter(child: OffersCarouselAndCategories(categoryStatus: state.homeStatus,category:state.category)),
                  SliverToBoxAdapter(child: PopularProducts(productStatus: state.homeStatus,products: state.products)),
-                const SliverPadding(
-                  padding: EdgeInsets.symmetric(vertical: defaultPadding * 1.5),
-                  sliver: SliverToBoxAdapter(child: FlashSale()),
+                 SliverPadding(
+                  padding: const EdgeInsets.symmetric(vertical: defaultPadding * 1.5),
+                  sliver: SliverToBoxAdapter(child: FlashSale(productStatus: state.homeStatus, products: (state.products?.toList()?..shuffle(random))?.sublist(0,3))),
                 ),
                 SliverToBoxAdapter(
                   child: Column(
@@ -73,8 +110,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     ],
                   ),
                 ),
-                const SliverToBoxAdapter(child: BestSellers()),
-                const SliverToBoxAdapter(child: MostPopular()),
+                SliverToBoxAdapter(child: BestSellers(productStatus: state.homeStatus, products: (state.products?.toList()?..shuffle(random))?.sublist(0,3))),
+                SliverToBoxAdapter(child: MostPopular(productStatus: state.homeStatus, products: (state.products?.toList()?..shuffle(random))?.sublist(0,7))),
                 SliverToBoxAdapter(
                   child: Column(
                     children: [
@@ -95,7 +132,6 @@ class _HomeScreenState extends State<HomeScreen> {
                     ],
                   ),
                 ),
-                const SliverToBoxAdapter(child: BestSellers()),
               ],
             ),
           );

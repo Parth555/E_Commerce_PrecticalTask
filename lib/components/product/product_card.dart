@@ -69,6 +69,7 @@ class ProductCard extends StatelessWidget {
                 children: [
                   Text(
                     brandName.toUpperCase(),
+                    maxLines: 1,
                     style: Theme.of(context)
                         .textTheme
                         .bodyMedium!

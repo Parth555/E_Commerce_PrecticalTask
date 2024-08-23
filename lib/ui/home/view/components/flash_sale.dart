@@ -1,6 +1,10 @@
+import 'package:e_commerce/models/products_model.dart';
+import 'package:e_commerce/ui/home/bloc/home_bloc.dart';
 import 'package:flutter/material.dart';
 
+import '../../../../components/skleton/product/products_skelton.dart';
 import '../../../../utils/constant.dart';
+import '../../../product_detail/view/product_details_screen.dart';
 import '/components/Banner/M/banner_m_with_counter.dart';
 import '../../../../components/product/product_card.dart';
 import '../../../../models/product_model.dart';
@@ -8,8 +12,11 @@ import '../../../../models/product_model.dart';
 class FlashSale extends StatelessWidget {
   const FlashSale({
     super.key,
+    required this.productStatus,
+    this.products,
   });
-
+  final HomeStatus productStatus;
+  final List<Products>? products;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -31,29 +38,27 @@ class FlashSale extends StatelessWidget {
           ),
         ),
         // While loading show 👇
-        // const ProductsSkelton(),
+        productStatus.isProductLoading||productStatus.isInitial||productStatus.productFailure||products==null?const ProductsSkelton():
         SizedBox(
           height: 220,
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
             // Find demoFlashSaleProducts on models/ProductModel.dart
-            itemCount: demoFlashSaleProducts.length,
+            itemCount: products!.length,
             itemBuilder: (context, index) => Padding(
               padding: EdgeInsets.only(
                 left: defaultPadding,
-                right: index == demoFlashSaleProducts.length - 1
-                    ? defaultPadding
-                    : 0,
+                right: index == demoFlashSaleProducts.length - 1 ? defaultPadding : 0,
               ),
               child: ProductCard(
-                image: demoFlashSaleProducts[index].image,
-                brandName: demoFlashSaleProducts[index].brandName,
-                title: demoFlashSaleProducts[index].title,
-                price: demoFlashSaleProducts[index].price,
-                priceAfetDiscount:
-                    demoFlashSaleProducts[index].priceAfetDiscount,
-                dicountpercent: demoFlashSaleProducts[index].dicountpercent,
+                image: products![index].image!,
+                brandName: products![index].category!,
+                title: products![index].title!,
+                price: products![index].price!,
+                priceAfetDiscount: double.parse((products![index].price!-((products![index].price!*10)/100)).toStringAsFixed(2)),
+                dicountpercent: 10,
                 press: () {
+                  Navigator.push(context,ProductDetailsScreen.route(productId: products![index].id!));
                   // Navigator.pushNamed(context, productDetailsScreenRoute,
                   //     arguments: index.isEven);
                 },
