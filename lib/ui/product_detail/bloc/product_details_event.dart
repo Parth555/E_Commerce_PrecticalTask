@@ -57,3 +57,13 @@ class SelectedSizeIndex extends ProductDetailsEvent {
 }
 
 
+class ItemAddToCart extends ProductDetailsEvent {
+  ItemAddToCart(this.product);
+
+  final Products product;
+
+  @override
+  List<Object?> get props => [product];
+}
+
+

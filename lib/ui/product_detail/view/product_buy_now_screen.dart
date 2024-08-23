@@ -44,6 +44,7 @@ class ProductBuyNowScreenState extends State<ProductBuyNowScreen> {
                 Utils.showSnackBar(context, 'Please increase item count');
                 return;
               }
+              widget.context.read<ProductDetailsBloc>().add(ItemAddToCart(widget.product));
               customModalBottomSheet(
                 context,
                 isDismissible: false,

@@ -10,6 +10,7 @@ import '../../../services/dio_client.dart';
 import '../../../services/end_point.dart';
 import '../../../utils/app_exception.dart';
 import '../../../utils/debug.dart';
+import '../../cart/view/cart_screen.dart';
 
 part 'product_details_event.dart';
 
@@ -23,6 +24,7 @@ class ProductDetailsBloc extends Bloc<ProductDetailsEvent, ProductDetailsState> 
     on<DecrementItem>(_decrementItemCount);
     on<SelectedColour>(_selectedColour);
     on<SelectedSizeIndex>(_selectedSize);
+    on<ItemAddToCart>(_addToCart);
   }
 
   Future<void> _onGetProductDetails(GetProductDetail event, Emitter<ProductDetailsState> emit) async {
@@ -136,5 +138,9 @@ class ProductDetailsBloc extends Bloc<ProductDetailsEvent, ProductDetailsState> 
 
   FutureOr<void> _selectedSize(SelectedSizeIndex event, Emitter<ProductDetailsState> emit) {
     emit(state.copyWith(selectedSize: event.itemIndex));
+  }
+
+  FutureOr<void> _addToCart(ItemAddToCart event, Emitter<ProductDetailsState> emit) {
+
   }
 }
