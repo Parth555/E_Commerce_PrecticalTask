@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../../utils/constant.dart';
 import '../../../../utils/utils.dart';
 import '../../../category_products/view/category_product_screen.dart';
+import '../../bloc/home_bloc.dart';
 
 // For preview
 class CategoryModel {
@@ -37,9 +39,9 @@ class Categories extends StatelessWidget {
   final List<String> category;
 
   const Categories({
-    super.key, required this.category,
+    super.key, required this.category, required this.context,
   });
-
+  final BuildContext context;
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -57,7 +59,9 @@ class Categories extends StatelessWidget {
                 category: Utils.capitalizeFirstLetter(category[index]),
                 isActive: true,
                 press: () {
-                    Navigator.push(context, ProductCategoryScreen.route(category: category[index]));
+                    Navigator.push(context, ProductCategoryScreen.route(category: category[index])).then((_){
+                     if(this.context.mounted) this.context.read<HomeBloc>().add(GetItemCount());
+                    });
                 },
               ),
             ),

@@ -10,11 +10,12 @@ class OffersCarouselAndCategories extends StatelessWidget {
   const OffersCarouselAndCategories({
     super.key,
     required this.categoryStatus,
-    this.category,
+    this.category, required this.context,
   });
 
   final HomeStatus categoryStatus;
   final List<String>? category;
+  final BuildContext context;
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +39,7 @@ class OffersCarouselAndCategories extends StatelessWidget {
         categoryStatus.isCategoryLoading ||
         categoryStatus.categoryFailure ||category==null?
               const CategoriesSkelton()
-            :  Categories(category:category!)
+            :  Categories(category:category!,context:this.context)
       ],
     );
   }

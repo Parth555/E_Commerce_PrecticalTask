@@ -5,6 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../main.dart';
 import '../../../models/products_model.dart';
 import '../../../services/dio_client.dart';
 import '../../../services/end_point.dart';
@@ -17,6 +18,7 @@ part 'home_state.dart';
 
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
   HomeBloc() : super(const HomeState()) {
+    on<GetItemCount>(_onGetItemCount);
     on<GetAllCategory>(_onGetAllCategory);
     on<GetAllProduct>(_onGetAllProducts);
   }
@@ -112,5 +114,11 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         ),
       );
     }
+  }
+
+  FutureOr<void> _onGetItemCount(GetItemCount event, Emitter<HomeState> emit) {
+    int itemCount = objectbox.getItemCount();
+    Debug.printLog("_onGetItemCount $itemCount");
+    emit(state.copyWith(itemCount: itemCount));
   }
 }

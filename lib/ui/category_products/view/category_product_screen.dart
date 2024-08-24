@@ -7,6 +7,7 @@ import '../../../components/skleton/product/product_card_skelton.dart';
 import '../../../models/product_model.dart';
 import '../../../utils/constant.dart';
 import '../../../utils/utils.dart';
+import '../../product_detail/view/product_details_screen.dart';
 import '../bloc/category_products_bloc.dart';
 
 class ProductCategoryScreen extends StatefulWidget {
@@ -79,6 +80,7 @@ class _ProductCategoryScreenState extends State<ProductCategoryScreen> {
                         priceAfetDiscount: double.parse((state.products![index].price!-((state.products![index].price!*10)/100)).toStringAsFixed(2)),
                         dicountpercent: 10,
                               press: () {
+                                Navigator.push(context,ProductDetailsScreen.route(productId: state.products![index].id!));
                                 // Navigator.pushNamed(context, productDetailsScreenRoute);
                               },
                             );

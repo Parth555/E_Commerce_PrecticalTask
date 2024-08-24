@@ -1,6 +1,8 @@
+import 'package:e_commerce/generated/assets.dart';
 import 'package:flutter/material.dart';
 
 import '../../../utils/constant.dart';
+import '../../cart/view/cart_screen.dart';
 
 class AddedToCartMessageScreen extends StatelessWidget {
   const AddedToCartMessageScreen({super.key});
@@ -16,8 +18,8 @@ class AddedToCartMessageScreen extends StatelessWidget {
               const Spacer(),
               Image.asset(
                 Theme.of(context).brightness == Brightness.light
-                    ? "assets/Illustration/success.png"
-                    : "assets/Illustration/success_dark.png",
+                    ? Assets.illustrationSuccess
+                    : Assets.illustrationSuccessDark,
                 height: MediaQuery.of(context).size.height * 0.3,
               ),
               const Spacer(flex: 2),
@@ -36,13 +38,16 @@ class AddedToCartMessageScreen extends StatelessWidget {
               const Spacer(flex: 2),
               OutlinedButton(
                 onPressed: () {
-                  // Navigator.pushNamed(context, entryPointScreenRoute);
+                  Navigator.pop(context);
                 },
                 child: const Text("Continue shopping"),
               ),
               const SizedBox(height: defaultPadding),
               ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pop(context);
+                  Navigator.push(context, CartScreen.route());
+                },
                 child: const Text("Checkout"),
               ),
               const Spacer(),

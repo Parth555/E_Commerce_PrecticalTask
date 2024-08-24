@@ -1,6 +1,7 @@
 import 'package:e_commerce/models/products_model.dart';
 import 'package:e_commerce/ui/home/bloc/home_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../components/product/secondary_product_card.dart';
 import '../../../../components/skleton/product/secondery_produts_skelton.dart';
@@ -12,9 +13,9 @@ class MostPopular extends StatelessWidget {
   const MostPopular({
     super.key,
     required this.productStatus,
-    this.products,
-  });
-
+    this.products, required this.context,
+});
+final BuildContext context;
   final HomeStatus productStatus;
   final List<Products>? products;
 
@@ -53,6 +54,7 @@ class MostPopular extends StatelessWidget {
                 dicountpercent: 10,
                 press: () {
                   Navigator.push(context,ProductDetailsScreen.route(productId: products![index].id!));
+                  if(this.context.mounted) this.context.read<HomeBloc>().add(GetItemCount());
                   // Navigator.pushNamed(context, productDetailsScreenRoute,
                   //     arguments: index.isEven);
                 },

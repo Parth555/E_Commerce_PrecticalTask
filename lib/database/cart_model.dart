@@ -19,6 +19,8 @@ class CartItem {
   int? itemCount;
   int? selectedColor;
   int? selectedSize;
+  int? orderId;
+  int? isConformed;
 
   /// Note: Stored in milliseconds without time zone info.
   DateTime date;
@@ -36,6 +38,8 @@ class CartItem {
     this.itemCount,
     this.selectedColor,
     this.selectedSize,
+    this.orderId = 0,
+    this.isConformed = 0,
     DateTime? date,
   }) : date = date ?? DateTime.now();
 

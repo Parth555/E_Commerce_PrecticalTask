@@ -1,6 +1,7 @@
 import 'package:e_commerce/models/products_model.dart';
 import 'package:e_commerce/ui/home/bloc/home_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../components/product/product_card.dart';
 import '../../../../components/skleton/product/products_skelton.dart';
 import '../../../../models/product_model.dart';
@@ -11,8 +12,9 @@ class BestSellers extends StatelessWidget {
   const BestSellers({
     super.key,
     required this.productStatus,
-    this.products,
+    this.products, required this.context,
   });
+  final BuildContext context;
   final HomeStatus productStatus;
   final List<Products>? products;
 
@@ -50,7 +52,9 @@ class BestSellers extends StatelessWidget {
                 priceAfetDiscount: double.parse((products![index].price!-((products![index].price!*10)/100)).toStringAsFixed(2)),
                 dicountpercent: 10,
                 press: () {
-                  Navigator.push(context,ProductDetailsScreen.route(productId: products![index].id!));
+                  Navigator.push(context,ProductDetailsScreen.route(productId: products![index].id!)).then((_){
+                    if(this.context.mounted) this.context.read<HomeBloc>().add(GetItemCount());
+                  });
                   // Navigator.pushNamed(context, productDetailsScreenRoute,
                   //     arguments: index.isEven);
                 },

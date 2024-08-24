@@ -14,6 +14,7 @@ import '../../../components/network_image_with_loader.dart';
 import '../../../generated/assets.dart';
 import '../../../utils/constant.dart';
 import '../../../utils/utils.dart';
+import '../../../widgets/alert_dialog_widget.dart';
 import '../bloc/product_details_bloc.dart';
 import 'added_to_cart_message_screen.dart';
 
@@ -22,7 +23,8 @@ class ProductBuyNowScreen extends StatefulWidget {
 
   final BuildContext context;
 
-  const ProductBuyNowScreen({super.key, required this.product, required this.context});
+  const ProductBuyNowScreen(
+      {super.key, required this.product, required this.context});
 
   @override
   ProductBuyNowScreenState createState() => ProductBuyNowScreenState();
@@ -32,34 +34,57 @@ class ProductBuyNowScreenState extends State<ProductBuyNowScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: BlocBuilder<ProductDetailsBloc, ProductDetailsState>(
+      bottomNavigationBar:
+          BlocConsumer<ProductDetailsBloc, ProductDetailsState>(
         bloc: widget.context.read<ProductDetailsBloc>(),
         builder: (context, state) {
           return CartButton(
-            price: (double.parse((widget.product.price! - ((widget.product.price! * 10) / 100)).toStringAsFixed(2)))*state.itemCount,
+            price: (double.parse((widget.product.price! -
+                        ((widget.product.price! * 10) / 100))
+                    .toStringAsFixed(2))) *
+                state.itemCount,
             title: "Add to cart",
             subTitle: "Total price",
             press: () {
-              if(state.itemCount==0){
+              if (state.itemCount == 0) {
                 Utils.showSnackBar(context, 'Please increase item count');
                 return;
               }
-              widget.context.read<ProductDetailsBloc>().add(ItemAddToCart(widget.product));
-              customModalBottomSheet(
-                context,
-                isDismissible: false,
-                child: const AddedToCartMessageScreen(),
-              );
+              widget.context.read<ProductDetailsBloc>().add(ItemAddToCart(
+                    widget.product,
+                    state.itemCount,
+                    state.selectedColour,
+                    state.selectedSize,
+                  ));
             },
           );
+        },
+        listener: (BuildContext context, ProductDetailsState state) {
+          if (state.addToCartStatus.isAddToCartLoading) {
+            showDialog(
+              context: context,
+              barrierDismissible: false,
+              builder: (context) => const AlertDialogWidget(),
+            );
+          }
+          if (state.addToCartStatus.isAddToCartSuccess) {
+            Navigator.pop(context);
+            Navigator.pop(context);
+            customModalBottomSheet(
+              context,
+              isDismissible: false,
+              child: const AddedToCartMessageScreen(),
+            );
+          }
         },
       ),
       body: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: defaultPadding / 2, vertical: defaultPadding),
+            padding: const EdgeInsets.symmetric(
+                horizontal: defaultPadding / 2, vertical: defaultPadding),
             child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 const BackButton(),
@@ -72,7 +97,8 @@ class ProductBuyNowScreenState extends State<ProductBuyNowScreen> {
                 ),
                 IconButton(
                   onPressed: () {},
-                  icon: SvgPicture.asset(Assets.iconsBookmark, color: Theme.of(context).textTheme.bodyLarge!.color),
+                  icon: SvgPicture.asset(Assets.iconsBookmark,
+                      color: Theme.of(context).textTheme.bodyLarge!.color),
                 ),
               ],
             ),
@@ -82,10 +108,12 @@ class ProductBuyNowScreenState extends State<ProductBuyNowScreen> {
               slivers: [
                 SliverToBoxAdapter(
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: defaultPadding),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: defaultPadding),
                     child: AspectRatio(
                       aspectRatio: 1.05,
-                      child: NetworkImageWithLoader(widget.product.image!, fit: BoxFit.contain),
+                      child: NetworkImageWithLoader(widget.product.image!,
+                          fit: BoxFit.contain),
                     ),
                   ),
                 ),
@@ -100,19 +128,27 @@ class ProductBuyNowScreenState extends State<ProductBuyNowScreen> {
                           children: [
                             Expanded(
                               child: UnitPrice(
-                                price: (widget.product.price ?? 0.0) * state.itemCount,
-                                priceAfterDiscount:
-                                    (double.parse((widget.product.price! - ((widget.product.price! * 10) / 100)).toStringAsFixed(2))) *
-                                        state.itemCount,
+                                price: (widget.product.price ?? 0.0) *
+                                    state.itemCount,
+                                priceAfterDiscount: (double.parse(
+                                        (widget.product.price! -
+                                                ((widget.product.price! * 10) /
+                                                    100))
+                                            .toStringAsFixed(2))) *
+                                    state.itemCount,
                               ),
                             ),
                             ProductQuantity(
                               numOfItem: state.itemCount,
                               onIncrement: () {
-                                widget.context.read<ProductDetailsBloc>().add(IncrementItem(state.itemCount));
+                                widget.context
+                                    .read<ProductDetailsBloc>()
+                                    .add(IncrementItem(state.itemCount));
                               },
                               onDecrement: () {
-                                widget.context.read<ProductDetailsBloc>().add(DecrementItem(state.itemCount));
+                                widget.context
+                                    .read<ProductDetailsBloc>()
+                                    .add(DecrementItem(state.itemCount));
                               },
                             ),
                           ],
@@ -130,7 +166,9 @@ class ProductBuyNowScreenState extends State<ProductBuyNowScreen> {
                         colors: itemColors,
                         selectedColorIndex: state.selectedColour,
                         press: (value) {
-                          widget.context.read<ProductDetailsBloc>().add(SelectedColour(value));
+                          widget.context
+                              .read<ProductDetailsBloc>()
+                              .add(SelectedColour(value));
                         },
                       );
                     },
@@ -144,7 +182,9 @@ class ProductBuyNowScreenState extends State<ProductBuyNowScreen> {
                         sizes: itemSize,
                         selectedIndex: state.selectedSize,
                         press: (value) {
-                          widget.context.read<ProductDetailsBloc>().add(SelectedSizeIndex(value));
+                          widget.context
+                              .read<ProductDetailsBloc>()
+                              .add(SelectedSizeIndex(value));
                         },
                       );
                     },
@@ -166,7 +206,8 @@ class ProductBuyNowScreenState extends State<ProductBuyNowScreen> {
                   ),
                 ),
                 SliverPadding(
-                  padding: const EdgeInsets.symmetric(horizontal: defaultPadding),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: defaultPadding),
                   sliver: SliverToBoxAdapter(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -177,7 +218,8 @@ class ProductBuyNowScreenState extends State<ProductBuyNowScreen> {
                           style: Theme.of(context).textTheme.titleSmall,
                         ),
                         const SizedBox(height: defaultPadding / 2),
-                        const Text("Select a size to check store availability and In-Store pickup options.")
+                        const Text(
+                            "Select a size to check store availability and In-Store pickup options.")
                       ],
                     ),
                   ),
@@ -197,7 +239,8 @@ class ProductBuyNowScreenState extends State<ProductBuyNowScreen> {
                     },
                   ),
                 ),
-                const SliverToBoxAdapter(child: SizedBox(height: defaultPadding))
+                const SliverToBoxAdapter(
+                    child: SizedBox(height: defaultPadding))
               ],
             ),
           )

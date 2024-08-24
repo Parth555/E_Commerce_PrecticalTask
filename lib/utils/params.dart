@@ -10,4 +10,7 @@ class Params {
   static const email = "email";
   static const username = "username";
   static const password = "password";
+  static const userId = "userId";
+  static const date = "userId";
+  static const products = "userId";
 }

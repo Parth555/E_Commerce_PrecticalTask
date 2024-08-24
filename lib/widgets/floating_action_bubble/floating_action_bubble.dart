@@ -98,7 +98,7 @@ class FloatingActionBubble extends AnimatedWidget {
 
     final transform = Matrix4.translationValues(
       animationDirection *
-          (screenWidth - _animation.category * screenWidth) *
+          (screenWidth - _animation.itemId * screenWidth) *
           ((items.length - index) / 4),
       0.0,
       0.0,
@@ -111,7 +111,7 @@ class FloatingActionBubble extends AnimatedWidget {
       child: Transform(
         transform: transform,
         child: Opacity(
-          opacity: _animation.category,
+          opacity: _animation.itemId,
           child: BubbleMenu(items[index]),
         ),
       ),
@@ -125,7 +125,7 @@ class FloatingActionBubble extends AnimatedWidget {
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
         IgnorePointer(
-          ignoring: _animation.category == 0,
+          ignoring: _animation.itemId == 0,
           child: ListView.separated(
             shrinkWrap: true,
             physics: NeverScrollableScrollPhysics(),

@@ -29,6 +29,7 @@ dependencies:
   shimmer: ^3.0.0
   objectbox: ^4.0.2
   objectbox_flutter_libs: any
+  badges: ^3.1.2
 
 dev_dependencies:
   flutter_test:
@@ -36,6 +37,13 @@ dev_dependencies:
   flutter_lints: ^4.0.0
   build_runner: ^2.4.12
   objectbox_generator: any
+  flutter_launcher_icons: ^0.13.1
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/logo/shoppingcart.png"
+  min_sdk_android: 21 # android min sdk min:16, default 21
 
 flutter:
   uses-material-design: true

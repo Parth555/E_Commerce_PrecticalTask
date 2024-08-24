@@ -31,26 +31,30 @@ class HomeState extends Equatable {
       {this.homeStatus = HomeStatus.initial,
       this.errorMessage = '',
       this.category,
+      this.itemCount=0,
       this.products});
 
   final List<String>? category;
   final List<Products>? products;
   final HomeStatus homeStatus;
   final String errorMessage;
+  final int itemCount;
 
   HomeState copyWith({
     HomeStatus? homeStatus,
     String? errorMessage,
+    int? itemCount,
       List<String>? category,
       List<Products>? products}) {
     return HomeState(
       homeStatus: homeStatus ?? this.homeStatus,
       errorMessage: errorMessage ?? this.errorMessage,
+      itemCount: itemCount ?? this.itemCount,
       category: category ?? this.category,
       products: products ?? this.products,
     );
   }
 
   @override
-  List<Object?> get props => [homeStatus, errorMessage, category, products];
+  List<Object?> get props => [homeStatus, errorMessage, category, products,itemCount];
 }

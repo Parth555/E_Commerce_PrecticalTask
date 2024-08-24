@@ -5,8 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:shimmer/shimmer.dart';
-
-import '../../../components/buy_full_ui_kit.dart';
 import '../../../components/cart_button.dart';
 import '../../../components/custom_modal_bottom_sheet.dart';
 import '../../../components/product/product_card.dart';

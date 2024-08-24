@@ -3,20 +3,25 @@ import 'package:e_commerce/ui/home/bloc/home_bloc.dart';
 import 'package:e_commerce/ui/product_detail/bloc/product_details_bloc.dart';
 import 'package:e_commerce/ui/product_detail/view/product_details_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../components/product/product_card.dart';
 import '../../../../components/skleton/product/products_skelton.dart';
 import '../../../../models/product_model.dart';
 import '../../../../utils/constant.dart';
+import '../../../../utils/debug.dart';
 
 class PopularProducts extends StatelessWidget {
   const PopularProducts({
     super.key,
     required this.productStatus,
-    this.products,
-  });
+    this.products, required this.context,
+});
+final BuildContext context;
   final HomeStatus productStatus;
   final List<Products>? products;
+
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -53,7 +58,13 @@ class PopularProducts extends StatelessWidget {
                 priceAfetDiscount: double.parse((products![index].price!-((products![index].price!*10)/100)).toStringAsFixed(2)),
                 dicountpercent: 10,
                 press: () {
-                  Navigator.push(context,ProductDetailsScreen.route(productId: products![index].id!));
+                  Navigator.push(context,ProductDetailsScreen.route(productId: products![index].id!)).then((_){
+                    Debug.printLog("then");
+                    if(this.context.mounted) {
+                      Debug.printLog("then1");
+                            this.context.read<HomeBloc>().add(GetItemCount());
+                          }
+                        });
                 },
               ),
             ),
